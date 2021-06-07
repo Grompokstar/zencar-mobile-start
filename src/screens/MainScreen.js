@@ -9,8 +9,8 @@ export const MainScreen = ({ navigation }) => {
         Main screen
       </Text>
       <Button
-        title="Go to Second screen"
-        onPress={() => navigation.navigate('Home')}
+        title="Open modal screen"
+        onPress={() => navigation.navigate('Modal')}
       />
 
     </View>

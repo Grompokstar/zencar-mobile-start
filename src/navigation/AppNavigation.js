@@ -34,19 +34,24 @@ export const AppNavigation = ({}) => {
         },
       }}
     >
-      <Stack.Screen
-        name="Main"
-        component={MainScreen}
-        options={{
-          title: 'My home'
-        }}
-      />
-      <Stack.Screen
-        name='Home'
-        component={HomeTabNavigation}
-      />
+      <Stack.Group>
+        <Stack.Screen
+          name="Main"
+          component={MainScreen}
+          options={{
+            title: 'My home'
+          }}
+        />
+        <Stack.Screen name="Second" component={SecondScreen} />
+      </Stack.Group>
+      <Stack.Group screenOptions={{ presentation: 'modal' }}>
+        <Stack.Screen
+          name='Modal'
+          component={MessagesScreen}
+        />
+      </Stack.Group>
 
-      <Stack.Screen name="Second" component={SecondScreen} />
+
     </Stack.Navigator>
   )
 }
