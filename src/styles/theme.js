@@ -1,0 +1,6 @@
+export const THEME = {
+  MAIN_COLOR: '#ff204e',
+  BACKGROUND_COLOR: '#F6F8FA',
+  FONT_COLOR: '#274568',
+  FONT_COLOR_DARK: '#16293F',
+}

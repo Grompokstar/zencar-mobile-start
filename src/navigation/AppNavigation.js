@@ -1,57 +1,34 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Button } from 'react-native';
-import { MainScreen } from '../screens/MainScreen';
-import { SecondScreen } from '../screens/SecondScreen';
-import { MessagesScreen } from '../screens/MessagesScreen';
-import { UsersScreen } from '../screens/UsersScreen';
+import { CreateCarManufacturerScreen } from '../screens/CreateCar/Manufacturer';
+import { THEME }                       from 'styles/theme';
 import Ionicons from '@expo/vector-icons/Ionicons'
-import { THEME } from '../theme';
 
-const Stack = createStackNavigator();
-const Tab = createBottomTabNavigator();
-
-const HomeTabNavigation = () => {
-  return (
-    <Tab.Navigator>
-      <Tab.Screen name='Messages' component={MessagesScreen}/>
-      <Tab.Screen name='Users' component={UsersScreen}/>
-    </Tab.Navigator>
-  )
-}
+const CreateCarStack = createStackNavigator();
 
 export const AppNavigation = ({}) => {
   return (
-    <Stack.Navigator
+    <CreateCarStack.Navigator
       screenOptions={{
         headerStyle: {
-          backgroundColor: '#f4511e',
+          backgroundColor: '#fff',
         },
-        headerTintColor: '#fff',
+        headerTintColor: THEME.FONT_COLOR_DARK,
         headerTitleStyle: {
-          fontWeight: 'bold',
+          fontFamily: 'Montserrat-Bold',
+          fontSize: 20,
+          letterSpacing: 0.15
         },
       }}
     >
-      <Stack.Group>
-        <Stack.Screen
-          name="Main"
-          component={MainScreen}
-          options={{
-            title: 'My home'
-          }}
-        />
-        <Stack.Screen name="Second" component={SecondScreen} />
-      </Stack.Group>
-      <Stack.Group screenOptions={{ presentation: 'modal' }}>
-        <Stack.Screen
-          name='Modal'
-          component={MessagesScreen}
-        />
-      </Stack.Group>
-
-
-    </Stack.Navigator>
+      <CreateCarStack.Screen
+        name="CreateCarManufacturer"
+        component={CreateCarManufacturerScreen}
+        options={{
+          title: 'Ваш автомобиль'
+        }}
+      />
+    </CreateCarStack.Navigator>
   )
 }
