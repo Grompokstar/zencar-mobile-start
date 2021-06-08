@@ -1,4 +1,6 @@
 import React from 'react';
+import { Provider } from 'react-redux';
+import { useStore } from './src/store';
 import * as Font from 'expo-font';
 import AppLoading from 'expo-app-loading';
 import { NavigationContainer }    from '@react-navigation/native';
@@ -17,6 +19,7 @@ async function loadApplication() {
 
 export default function App() {
   const [isReady, setIsReady] = React.useState(false);
+  const store = useStore({});
 
   if (!isReady) {
     return (
@@ -29,8 +32,10 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer>
-      <AppNavigation/>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <AppNavigation/>
+      </NavigationContainer>
+    </Provider>
   );
 }

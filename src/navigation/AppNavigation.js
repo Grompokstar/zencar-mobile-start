@@ -1,7 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { CreateCarManufacturerScreen } from '../screens/CreateCar/Manufacturer';
+import { createBottomTabNavigator }    from '@react-navigation/bottom-tabs';
+import { CreateCarManufacturerScreen } from '../screens/CreateVehicle/Manufacturer';
 import { THEME }                       from 'styles/theme';
 import Ionicons from '@expo/vector-icons/Ionicons'
 

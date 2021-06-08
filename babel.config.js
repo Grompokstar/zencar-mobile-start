@@ -3,11 +3,15 @@ module.exports = function(api) {
   return {
     presets: ['babel-preset-expo'],
     plugins: [
+      'jsx-control-statements',
       [
         'module-resolver',
         {
           alias: {
+            components: './src/components',
             styles: './src/styles',
+            api: './src/api',
+            helpers: './src/helpers'
           },
         },
       ],
