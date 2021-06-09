@@ -1,10 +1,11 @@
-import React from 'react';
-import { Provider } from 'react-redux';
-import { useStore } from './src/store';
-import * as Font from 'expo-font';
-import AppLoading from 'expo-app-loading';
+import React                      from 'react';
+import { Provider }               from 'react-redux';
+import { useStore }               from './src/store';
+import * as Font                  from 'expo-font';
+import AppLoading                 from 'expo-app-loading';
 import { NavigationContainer }    from '@react-navigation/native';
 import { AppNavigation  }         from './src/navigation/AppNavigation';
+import { SafeAreaProvider }       from 'react-native-safe-area-context';
 
 async function loadApplication() {
   await Font.loadAsync({
@@ -33,9 +34,11 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      <NavigationContainer>
-        <AppNavigation/>
-      </NavigationContainer>
+      <SafeAreaProvider>
+        <NavigationContainer>
+          <AppNavigation/>
+        </NavigationContainer>
+      </SafeAreaProvider>
     </Provider>
   );
 }

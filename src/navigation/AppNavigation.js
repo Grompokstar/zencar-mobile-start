@@ -12,13 +12,13 @@ export const AppNavigation = ({}) => {
     <CreateCarStack.Navigator
       screenOptions={{
         headerStyle: {
-          backgroundColor: '#fff',
+          backgroundColor: '#fff'
         },
-        headerTintColor: THEME.FONT_COLOR_DARK,
+        headerTintColor: THEME.FONT_COLOR,
         headerTitleStyle: {
-          fontFamily: 'Montserrat-Bold',
-          fontSize: 20,
-          letterSpacing: 0.15
+          fontFamily: 'Montserrat-SemiBold',
+          fontSize: 16,
+          letterSpacing: 0.15,
         },
       }}
     >
@@ -26,7 +26,11 @@ export const AppNavigation = ({}) => {
         name="CreateCarManufacturer"
         component={CreateCarManufacturerScreen}
         options={{
-          title: 'Ваш автомобиль'
+          title: 'ВАШ АВТОМОБИЛЬ',
+          headerStyle: {
+            elevation: 0,
+            shadowOpacity: 0
+          },
         }}
       />
     </CreateCarStack.Navigator>

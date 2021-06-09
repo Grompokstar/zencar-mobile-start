@@ -48,7 +48,6 @@ export default function createCommonReducer (config) {
   }
 
   function setData (data = {}) {
-    console.log(data)
     return {
       type: SET_DATA,
       payload: { loading: false, pristine: false, data }
