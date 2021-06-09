@@ -8,7 +8,7 @@ import {
 }                                   from 'react-redux';
 import {
   View, StyleSheet,
-  FlatList, TouchableOpacity
+  FlatList, TextInput
 }                                   from 'react-native';
 import API                          from 'api/index';
 import { THEME }                    from 'styles/theme';
@@ -17,7 +17,7 @@ import AppInput                     from 'components/UI/Forms/Input';
 import { EnumType }                 from 'json-to-graphql-query';
 import AppSearchInput               from 'components/UI/Forms/SearchInput';
 
-export const CreateCarManufacturerScreen = ({ navigation }) => {
+export const CreateCarModelScreen = ({ navigation }) => {
   const vehicleManufacturers = useSelector(state => state.vehicleManufacturers);
   const dispatch = useDispatch();
   const [searchInputValue, setSearchInputValue] = useState('');
@@ -38,11 +38,7 @@ export const CreateCarManufacturerScreen = ({ navigation }) => {
 
   const renderItem = ({item}) => {
     return (
-      <TouchableOpacity
-        onPress={() => {navigation.navigate('CreateCarModel')}}
-      >
-        <SearchListItem text={item.name}/>
-      </TouchableOpacity>
+      <SearchListItem text={item.name}/>
     )
   }
 
@@ -53,7 +49,7 @@ export const CreateCarManufacturerScreen = ({ navigation }) => {
           <AppSearchInput
             onChangeText={(text) => {setSearchInputValue(text)}}
             value={searchInputValue}
-            placeholder="Поиск марки"
+            placeholder="Поиск модели"
           />
         </View>
         <FlatList
