@@ -8,19 +8,22 @@ import {
 }                                   from 'react-redux';
 import {
   View, StyleSheet,
-  FlatList, TouchableOpacity
+  FlatList, TouchableOpacity,
+  ActivityIndicator, Text
 }                                   from 'react-native';
 import API                          from 'api/index';
 import { THEME }                    from 'styles/theme';
 import SearchListItem               from 'components/UI/SearchList/Item';
-import AppInput                     from 'components/UI/Forms/Input';
 import { EnumType }                 from 'json-to-graphql-query';
 import AppSearchInput               from 'components/UI/Forms/SearchInput';
+import { setManufacturer }          from 'store/reducers/createVehicle';
+import isEmpty                      from 'lodash/isEmpty';
 
 export const CreateCarManufacturerScreen = ({ navigation }) => {
   const vehicleManufacturers = useSelector(state => state.vehicleManufacturers);
   const dispatch = useDispatch();
   const [searchInputValue, setSearchInputValue] = useState('');
+  const { loading } = vehicleManufacturers;
 
   useEffect(() => {
     dispatch(API.queries.vehicleManufacturers({
@@ -36,32 +39,50 @@ export const CreateCarManufacturerScreen = ({ navigation }) => {
     }));
   }, [searchInputValue])
 
+  const onPressSearchItem = (searchItem) => {
+    dispatch(setManufacturer({manufacturer: searchItem}))
+    navigation.navigate('CreateCarModel')
+  }
+
   const renderItem = ({item}) => {
     return (
       <TouchableOpacity
-        onPress={() => {navigation.navigate('CreateCarModel')}}
+        onPress={() => {onPressSearchItem(item)}}
       >
-        <SearchListItem text={item.name}/>
+        <SearchListItem
+          text={item.name}
+        />
       </TouchableOpacity>
     )
   }
 
   return (
     <View style={styles.container}>
-      <If condition={vehicleManufacturers.data}>
-        <View style={styles.search_container}>
-          <AppSearchInput
-            onChangeText={(text) => {setSearchInputValue(text)}}
-            value={searchInputValue}
-            placeholder="Поиск марки"
-          />
+      <View style={styles.search_container}>
+        <AppSearchInput
+          onChangeText={(text) => {setSearchInputValue(text)}}
+          value={searchInputValue}
+          placeholder="Поиск марки"
+        />
+      </View>
+
+      <If condition={loading}>
+        <View style={styles.preloader_container}>
+          <ActivityIndicator size="large" color={THEME.GRAY_30}/>
         </View>
+      </If>
+      <If condition={!loading && !isEmpty(vehicleManufacturers.data)}>
         <FlatList
           style={styles.list_container}
           data={vehicleManufacturers.data}
           renderItem={renderItem}
           keyExtractor={item => String(item.id)}
         />
+      </If>
+      <If condition={!loading && isEmpty(vehicleManufacturers.data) && searchInputValue}>
+        <View style={styles.empty_container}>
+          <Text style={styles.empty_text}>Ничего не найдено</Text>
+        </View>
       </If>
     </View>
   )
@@ -87,7 +108,18 @@ const styles = StyleSheet.create({
 
     elevation: 5,
   },
+  preloader_container : {
+    flex: 1,
+    justifyContent: 'center'
+  },
   list_container: {
     paddingHorizontal: 12
+  },
+  empty_container: {
+    paddingHorizontal: 12,
+    paddingVertical: 15
+  },
+  empty_text: {
+    color: THEME.GRAY_50
   }
 })

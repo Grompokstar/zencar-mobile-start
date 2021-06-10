@@ -8,4 +8,5 @@ export const THEME = {
   GRAY_50: 'rgba(39, 69, 104, 0.5)',
   GRAY_30: 'rgba(39, 69, 104, 0.3)',
   GRAY_10: 'rgba(39, 69, 104, 0.1)',
+  SHADOW_COLOR: '#e5e9ed'
 }

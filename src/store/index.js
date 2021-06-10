@@ -7,12 +7,16 @@ import {
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunkMiddleware         from 'redux-thunk';
 import API                     from 'api/api';
+import {
+  CreateVehicleReducer
+}                              from './reducers'
 
 let store;
 
 function initStore(initialState) {
   return createStore(
     combineReducers({
+      creatingVehicle: CreateVehicleReducer,
       ...API.reducers
     }),
     initialState,

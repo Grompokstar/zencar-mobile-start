@@ -2,6 +2,7 @@ import React                           from 'react';
 import { createStackNavigator }        from '@react-navigation/stack';
 import { CreateCarManufacturerScreen } from '../screens/CreateVehicle/Manufacturer';
 import { CreateCarModelScreen }        from '../screens/CreateVehicle/Model';
+import { CreateCarModificationScreen } from '../screens/CreateVehicle/Modification';
 import { THEME }                       from 'styles/theme';
 
 const CreateCarStack = createStackNavigator();
@@ -38,11 +39,18 @@ export const AppNavigation = ({}) => {
         name="CreateCarModel"
         component={CreateCarModelScreen}
         options={{
-          title: 'AUDI',
+          title: 'ВАШ АВТОМОБИЛЬ',
           headerStyle: {
             elevation: 0,
             shadowOpacity: 0
           },
+        }}
+      />
+      <CreateCarStack.Screen
+        name="CreateCarModification"
+        component={CreateCarModificationScreen}
+        options={{
+          title: 'ВАШ АВТОМОБИЛЬ'
         }}
       />
     </CreateCarStack.Navigator>

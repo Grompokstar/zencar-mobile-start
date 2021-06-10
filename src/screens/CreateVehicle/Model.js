@@ -1,63 +1,97 @@
 import React, {
   useEffect,
   useState
-}                                   from 'react';
+}                        from 'react';
 import {
   useSelector,
   useDispatch
-}                                   from 'react-redux';
+}                        from 'react-redux';
 import {
   View, StyleSheet,
-  FlatList, TextInput
-}                                   from 'react-native';
-import API                          from 'api/index';
-import { THEME }                    from 'styles/theme';
-import SearchListItem               from 'components/UI/SearchList/Item';
-import AppInput                     from 'components/UI/Forms/Input';
-import { EnumType }                 from 'json-to-graphql-query';
-import AppSearchInput               from 'components/UI/Forms/SearchInput';
+  FlatList, TouchableOpacity,
+  ActivityIndicator, Text
+}                     from 'react-native';
+import API            from 'api/index';
+import { THEME }      from 'styles/theme';
+import SearchListItem from 'components/UI/SearchList/Item';
+import { EnumType }   from 'json-to-graphql-query';
+import AppSearchInput from 'components/UI/Forms/SearchInput';
+import { setModel }   from 'store/reducers/createVehicle';
+import isEmpty        from 'lodash/isEmpty';
 
 export const CreateCarModelScreen = ({ navigation }) => {
-  const vehicleManufacturers = useSelector(state => state.vehicleManufacturers);
+  const vehicleModels = useSelector(state => state.vehicleModels);
+  const creatingVehicle = useSelector(state => state.creatingVehicle);
+  const { manufacturer } = creatingVehicle;
   const dispatch = useDispatch();
   const [searchInputValue, setSearchInputValue] = useState('');
+  const { loading } = vehicleModels;
 
   useEffect(() => {
-    dispatch(API.queries.vehicleManufacturers({
+    if (manufacturer && manufacturer.name) {
+      navigation.setOptions({ title: manufacturer.name })
+    }
+  }, [])
+
+  useEffect(() => {
+    dispatch(API.queries.vehicleModels({
       where: {
         name: {
           contain: searchInputValue
+        },
+        manufacturerId: {
+          eq: manufacturer.id
         }
       },
       order: {
-        priority: new EnumType('desc'),
         name: new EnumType('asc')
       }
     }));
   }, [searchInputValue])
 
+  const onPressSearchItem = (searchItem) => {
+    dispatch(setModel({model: searchItem}));
+    navigation.navigate('CreateCarModification')
+  }
+
   const renderItem = ({item}) => {
     return (
-      <SearchListItem text={item.name}/>
+      <TouchableOpacity
+        onPress={() => {onPressSearchItem(item)}}
+      >
+        <SearchListItem
+          text={`${item.name} ${item.subbody}`}
+        />
+      </TouchableOpacity>
     )
   }
 
   return (
     <View style={styles.container}>
-      <If condition={vehicleManufacturers.data}>
-        <View style={styles.search_container}>
-          <AppSearchInput
-            onChangeText={(text) => {setSearchInputValue(text)}}
-            value={searchInputValue}
-            placeholder="Поиск модели"
-          />
+      <View style={styles.search_container}>
+        <AppSearchInput
+          onChangeText={(text) => {setSearchInputValue(text)}}
+          value={searchInputValue}
+          placeholder="Поиск модели"
+        />
+      </View>
+      <If condition={loading}>
+        <View style={styles.preloader_container}>
+          <ActivityIndicator size="large" color={THEME.GRAY_30}/>
         </View>
+      </If>
+      <If condition={!loading && !isEmpty(vehicleModels.data)}>
         <FlatList
           style={styles.list_container}
-          data={vehicleManufacturers.data}
+          data={vehicleModels.data}
           renderItem={renderItem}
           keyExtractor={item => String(item.id)}
         />
+      </If>
+      <If condition={!loading && isEmpty(vehicleModels.data) && searchInputValue}>
+        <View style={styles.empty_container}>
+          <Text style={styles.empty_text}>Ничего не найдено</Text>
+        </View>
       </If>
     </View>
   )
@@ -85,5 +119,16 @@ const styles = StyleSheet.create({
   },
   list_container: {
     paddingHorizontal: 12
+  },
+  preloader_container : {
+    flex: 1,
+    justifyContent: 'center'
+  },
+  empty_container: {
+    paddingHorizontal: 12,
+    paddingVertical: 15
+  },
+  empty_text: {
+    color: THEME.GRAY_50
   }
 })
