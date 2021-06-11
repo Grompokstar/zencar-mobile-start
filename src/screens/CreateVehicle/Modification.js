@@ -13,14 +13,14 @@ import {
 }                                 from 'react-native';
 import API                        from 'api/index';
 import { THEME }                  from 'styles/theme';
-import SearchListItem             from 'components/UI/SearchList/Item';
-import { EnumType }               from 'json-to-graphql-query';
-import AppSearchInput             from 'components/UI/Forms/SearchInput';
-import { setModel }               from 'store/reducers/createVehicle';
+import isNull                     from 'lodash/isNull';
 import isEmpty                    from 'lodash/isEmpty';
 import minBy                      from 'lodash/minBy';
 import maxBy                      from 'lodash/maxBy';
+import uniq                       from 'lodash/uniq';
+import filter                     from 'lodash/filter';
 import { Dimensions }             from 'react-native';
+import { addVehicle }             from 'store/reducers/garage';
 
 const yearContainerWidth = (Dimensions.get('window').width - 12*4)/3
 
@@ -29,11 +29,17 @@ export const CreateCarModificationScreen = ({ navigation }) => {
   const creatingVehicle = useSelector(state => state.creatingVehicle);
   const { manufacturer, model } = creatingVehicle;
   const dispatch = useDispatch();
-  const [searchInputValue, setSearchInputValue] = useState('');
   const { loading, data } = vehicleModifications;
   const currentYear = new Date().getFullYear();
+  const [ year, setYear ] = useState(null);
+  const [ fuel, setFuel ] = useState(null);
+  const [ litres, setLitres ] = useState(null);
+  const [ dinHp, setDinHp ] = useState(null);
 
-  console.log(vehicleModifications)
+  const fuelTypes = {
+    P: 'Бензиновый',
+    D: 'Дизельный'
+  }
 
   const getModificationYears = () => {
     const minYear = minBy(data, 'startYear').startYear;
@@ -46,6 +52,43 @@ export const CreateCarModificationScreen = ({ navigation }) => {
 
     return yearsArray;
   };
+
+  const getFuelTypes = () => {
+    const tmp = filter(data, (item) => {
+      return year >= item.startYear  && year <= item.endYear
+    })
+
+    return uniq(tmp.map(item => item.fuel));
+  };
+
+  const getLitres = () => {
+    let tmp = filter(data, (item) => {
+      return year >= item.startYear  && year <= item.endYear && fuel === item.fuel
+    })
+
+    tmp = uniq(tmp.map(item => item.litres));
+
+    return tmp.sort((a, b) => a - b);
+  };
+
+  const getDinHps = () => {
+    let tmp = filter(data, (item) => {
+      return year >= item.startYear  && year <= item.endYear && fuel === item.fuel && litres === item.litres
+    })
+
+    tmp = uniq(tmp.map(item => item.dinHp));
+
+    return tmp.sort((a, b) => a - b);
+  };
+
+  const getResultModification = () => {
+    const filteredModifications = filter(data, (item) => {
+      return year >= item.startYear  && year <= item.endYear && fuel === item.fuel && litres === item.litres
+        && dinHp === item.dinHp;
+    });
+
+    return filteredModifications[0]
+  }
 
   useEffect(() => {
     if (manufacturer && manufacturer.name && model && model.name) {
@@ -61,24 +104,23 @@ export const CreateCarModificationScreen = ({ navigation }) => {
         }
       }
     }));
-  }, [searchInputValue])
+  }, [])
 
-  const onPressSearchItem = (searchItem) => {
-    console.log(searchItem)
-    //dispatch(setModel({model: searchItem}))
-  }
+  useEffect(() => {
+    if (dinHp) {
+      const modification = getResultModification();
 
-  const renderItem = ({item}) => {
-    return (
-      <TouchableOpacity
-        onPress={() => {onPressSearchItem(item)}}
-      >
-        <SearchListItem
-          text={`${item.enginecode}`}
-        />
-      </TouchableOpacity>
-    )
-  }
+      const vehicle = {
+        ...creatingVehicle,
+        modification
+      }
+
+      console.log(vehicle)
+      dispatch(addVehicle(vehicle));
+      navigation.navigate('MyGarage');
+    }
+  }, [dinHp])
+
 
   return (
     <View style={styles.container}>
@@ -87,14 +129,80 @@ export const CreateCarModificationScreen = ({ navigation }) => {
           <ActivityIndicator size="large" color={THEME.GRAY_30}/>
         </View>
       </If>
+
       <If condition={!loading && !isEmpty(vehicleModifications.data)}>
-        <View style={styles.years_container}>
-          <For each="year" of={getModificationYears()} index="index">
-            <View key={year} style={styles.year}>
-              <Text style={styles.year_text}>{year}</Text>
+        <Choose>
+          <When condition={isNull(year)}>
+            <Text style={styles.header}>
+              Год выпуска автомобиля
+            </Text>
+            <View style={styles.content_container}>
+              <For each="year" of={getModificationYears()} index="index">
+                <TouchableOpacity
+                  onPress={() => {setYear(year)}}
+                >
+                  <View key={year} style={yearTag}>
+                    <Text style={styles.tag_text}>{year}</Text>
+                  </View>
+                </TouchableOpacity>
+              </For>
             </View>
-          </For>
-        </View>
+          </When>
+
+          <When condition={!isNull(year) && isNull(fuel)}>
+            <Text style={styles.header}>
+              Тип двигателя
+            </Text>
+            <View style={styles.content_container}>
+              <For each="fuel" of={getFuelTypes()} index="index">
+                <TouchableOpacity
+                  onPress={() => {setFuel(fuel)}}
+                >
+                  <View key={fuel} style={styles.tag}>
+                    <Text style={styles.tag_text}>{fuelTypes[fuel]}</Text>
+                  </View>
+                </TouchableOpacity>
+              </For>
+            </View>
+          </When>
+
+          <When condition={!isNull(fuel) && isNull(litres)}>
+            <Text style={styles.header}>
+              Объем двигателя
+            </Text>
+            <View style={styles.content_container}>
+              <For each="litres" of={getLitres()} index="index">
+                <TouchableOpacity
+                  onPress={() => {setLitres(litres)}}
+                >
+                  <View key={litres} style={styles.tag}>
+                    <Text style={styles.tag_text}>{`${litres} л.`}</Text>
+                  </View>
+                </TouchableOpacity>
+              </For>
+            </View>
+          </When>
+
+          <When condition={!isNull(litres) && isNull(dinHp)}>
+            <Text style={styles.header}>
+              Мощность двигателя
+            </Text>
+            <View style={styles.content_container}>
+              <For each="dinHp" of={getDinHps()} index="index">
+                <TouchableOpacity
+                  onPress={ async () => {
+                    await setDinHp(dinHp);
+                  }}
+                >
+                  <View key={litres} style={styles.tag}>
+                    <Text style={styles.tag_text}>{`${dinHp} л.c.`}</Text>
+                  </View>
+                </TouchableOpacity>
+              </For>
+            </View>
+          </When>
+
+          </Choose>
       </If>
     </View>
   )
@@ -119,17 +227,23 @@ const styles = StyleSheet.create({
 
     elevation: 5,
   },
-  years_container: {
+  content_container: {
     paddingLeft: 12,
     paddingVertical: 12,
     flexDirection: 'row',
-    //justifyContent: 'space-between',
     flexWrap: 'wrap'
   },
-  year: {
-    width: yearContainerWidth,
+  header: {
+    paddingHorizontal: 12,
+    paddingTop: 12,
+    color: THEME.FONT_COLOR,
+    fontSize: 16,
+    fontFamily: 'Montserrat-Medium'
+  },
+  tag: {
     backgroundColor: '#fff',
     paddingVertical: 16,
+    paddingHorizontal: 16,
     borderRadius: 8,
     marginBottom: 12,
     marginRight: 12,
@@ -143,7 +257,7 @@ const styles = StyleSheet.create({
 
     elevation: 6,
   },
-  year_text: {
+  tag_text: {
     fontFamily: 'Montserrat-SemiBold',
     fontSize: 14,
     color: THEME.FONT_COLOR,
@@ -162,3 +276,8 @@ const styles = StyleSheet.create({
     color: THEME.GRAY_50
   }
 })
+
+const yearTag = StyleSheet.flatten([
+  styles.tag,
+  {width: yearContainerWidth}
+])

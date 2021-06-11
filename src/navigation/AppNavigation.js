@@ -3,6 +3,7 @@ import { createStackNavigator }        from '@react-navigation/stack';
 import { CreateCarManufacturerScreen } from '../screens/CreateVehicle/Manufacturer';
 import { CreateCarModelScreen }        from '../screens/CreateVehicle/Model';
 import { CreateCarModificationScreen } from '../screens/CreateVehicle/Modification';
+import { MyGarageScreen }              from '../screens/MyGarage';
 import { THEME }                       from 'styles/theme';
 
 const CreateCarStack = createStackNavigator();
@@ -51,6 +52,13 @@ export const AppNavigation = ({}) => {
         component={CreateCarModificationScreen}
         options={{
           title: 'ВАШ АВТОМОБИЛЬ'
+        }}
+      />
+      <CreateCarStack.Screen
+        name="MyGarage"
+        component={MyGarageScreen}
+        options={{
+          title: 'Мой гараж'
         }}
       />
     </CreateCarStack.Navigator>
