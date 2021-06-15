@@ -15,13 +15,13 @@ export const ACTION_HANDLERS = {
   [ADD_VEHICLE]: (state, action) => {
 
     return {
-      garageVehicles: [...state.garageVehicles, action.payload]
+      items: [...state.items, action.payload]
     }
   },
 };
 
 const initialState = {
-  garageVehicles: []
+  items: []
 };
 
 const MyGarageReducer = (state = initialState, action) => {

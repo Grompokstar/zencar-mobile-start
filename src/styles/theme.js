@@ -8,5 +8,11 @@ export const THEME = {
   GRAY_50: 'rgba(39, 69, 104, 0.5)',
   GRAY_30: 'rgba(39, 69, 104, 0.3)',
   GRAY_10: 'rgba(39, 69, 104, 0.1)',
-  SHADOW_COLOR: '#e5e9ed'
+  SHADOW_COLOR: '#e5e9ed',
+  FONT_LIGHT: 'Montserrat-Light',
+  FONT_REGULAR: 'Montserrat-Regular',
+  FONT_MEDIUM: 'Montserrat-Medium',
+  FONT_SEMI_BOLD: 'Montserrat-SemiBold',
+  FONT_BOLD: 'Montserrat-Bold',
+  FONT_EXTRA_BOLD: 'Montserrat-ExtraBold',
 }

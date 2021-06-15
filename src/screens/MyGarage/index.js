@@ -13,21 +13,17 @@ import {
 }                        from 'react-native';
 import API               from 'api/index';
 import { THEME }         from 'styles/theme';
+import VehicleCard       from 'components/Vehicle/Card';
 
 
 export const MyGarageScreen = ({ navigation }) => {
   const garageVehicles = useSelector(state => state.garageVehicles);
 
-  useEffect(() => {
-
-    console.log(garageVehicles)
-
-  }, [garageVehicles])
-
-
   return (
     <View style={styles.container}>
-      <Text>{JSON.stringify(garageVehicles)}</Text>
+      <For each='vehicle' of={garageVehicles.items}>
+        <VehicleCard data={vehicle} key={vehicle.modification.id}/>
+      </For>
     </View>
   )
 }
@@ -35,6 +31,7 @@ export const MyGarageScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
+    padding: 12
 
   }
 })

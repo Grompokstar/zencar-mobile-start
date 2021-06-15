@@ -139,9 +139,10 @@ export const CreateCarModificationScreen = ({ navigation }) => {
             <View style={styles.content_container}>
               <For each="year" of={getModificationYears()} index="index">
                 <TouchableOpacity
+                  key={year}
                   onPress={() => {setYear(year)}}
                 >
-                  <View key={year} style={yearTag}>
+                  <View style={yearTag}>
                     <Text style={styles.tag_text}>{year}</Text>
                   </View>
                 </TouchableOpacity>
@@ -156,9 +157,10 @@ export const CreateCarModificationScreen = ({ navigation }) => {
             <View style={styles.content_container}>
               <For each="fuel" of={getFuelTypes()} index="index">
                 <TouchableOpacity
+                  key={fuel}
                   onPress={() => {setFuel(fuel)}}
                 >
-                  <View key={fuel} style={styles.tag}>
+                  <View style={styles.tag}>
                     <Text style={styles.tag_text}>{fuelTypes[fuel]}</Text>
                   </View>
                 </TouchableOpacity>
@@ -173,9 +175,10 @@ export const CreateCarModificationScreen = ({ navigation }) => {
             <View style={styles.content_container}>
               <For each="litres" of={getLitres()} index="index">
                 <TouchableOpacity
+                  key={litres}
                   onPress={() => {setLitres(litres)}}
                 >
-                  <View key={litres} style={styles.tag}>
+                  <View style={styles.tag}>
                     <Text style={styles.tag_text}>{`${litres} л.`}</Text>
                   </View>
                 </TouchableOpacity>
@@ -190,11 +193,12 @@ export const CreateCarModificationScreen = ({ navigation }) => {
             <View style={styles.content_container}>
               <For each="dinHp" of={getDinHps()} index="index">
                 <TouchableOpacity
+                  key={dinHp}
                   onPress={ async () => {
                     await setDinHp(dinHp);
                   }}
                 >
-                  <View key={litres} style={styles.tag}>
+                  <View style={styles.tag}>
                     <Text style={styles.tag_text}>{`${dinHp} л.c.`}</Text>
                   </View>
                 </TouchableOpacity>
