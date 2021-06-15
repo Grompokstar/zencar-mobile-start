@@ -21,6 +21,7 @@ import uniq                       from 'lodash/uniq';
 import filter                     from 'lodash/filter';
 import { Dimensions }             from 'react-native';
 import { addVehicle }             from 'store/reducers/garage';
+import AsyncStorage               from '@react-native-async-storage/async-storage';
 
 const yearContainerWidth = (Dimensions.get('window').width - 12*4)/3
 
@@ -35,6 +36,7 @@ export const CreateCarModificationScreen = ({ navigation }) => {
   const [ fuel, setFuel ] = useState(null);
   const [ litres, setLitres ] = useState(null);
   const [ dinHp, setDinHp ] = useState(null);
+
 
   const fuelTypes = {
     P: 'Бензиновый',
@@ -107,18 +109,29 @@ export const CreateCarModificationScreen = ({ navigation }) => {
   }, [])
 
   useEffect(() => {
-    if (dinHp) {
-      const modification = getResultModification();
+    async function setVehicle() {
+      if (dinHp) {
+        const modification = getResultModification();
 
-      const vehicle = {
-        ...creatingVehicle,
-        modification
+        const vehicle = {
+          ...creatingVehicle,
+          modification
+        }
+
+        const garageVehicles = [
+          vehicle
+        ]
+
+        //await AsyncStorage.removeItem('ZEN__garageVehicles');
+
+        await AsyncStorage.setItem('ZEN__garageVehicles', JSON.stringify(garageVehicles))
+        //dispatch(addVehicle(vehicle));
+        navigation.navigate('MyGarage');
       }
-
-      console.log(vehicle)
-      dispatch(addVehicle(vehicle));
-      navigation.navigate('MyGarage');
     }
+
+    setVehicle()
+
   }, [dinHp])
 
 

@@ -61,7 +61,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: THEME.FONT_SEMI_BOLD,
     color: THEME.FONT_COLOR,
-    letterSpacing: 0.15
+    letterSpacing: 0.15,
+    marginBottom: 4
   },
   plate: {
     fontFamily: THEME.FONT_SEMI_BOLD,
