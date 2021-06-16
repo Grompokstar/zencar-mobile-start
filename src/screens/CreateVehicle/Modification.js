@@ -122,11 +122,19 @@ export const CreateCarModificationScreen = ({ navigation }) => {
           vehicle
         ]
 
-        //await AsyncStorage.removeItem('ZEN__garageVehicles');
+        //await AsyncStorage.removeItem('ZEN__garageVehicles')
 
-        await AsyncStorage.setItem('ZEN__garageVehicles', JSON.stringify(garageVehicles))
-        //dispatch(addVehicle(vehicle));
-        navigation.navigate('MyGarage');
+        const vehiclesFromAsyncStorage = await AsyncStorage.getItem('ZEN__garageVehicles');
+
+        if (vehiclesFromAsyncStorage) {
+          const parsedVehicles = JSON.parse(vehiclesFromAsyncStorage);
+          const updatedVehicles = [...parsedVehicles, vehicle];
+          await AsyncStorage.setItem('ZEN__garageVehicles', JSON.stringify(updatedVehicles))
+        } else {
+          await AsyncStorage.setItem('ZEN__garageVehicles', JSON.stringify(garageVehicles))
+        }
+
+        navigation.navigate('Home', {screen: 'Main'});
       }
     }
 
