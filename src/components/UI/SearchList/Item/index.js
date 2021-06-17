@@ -6,7 +6,7 @@ import {
   StyleSheet
 }                           from 'react-native';
 import { Ionicons }         from '@expo/vector-icons';
-import { THEME }            from 'styles/theme';
+import  THEME               from 'styles/theme';
 
 const SearchListItem = ({ text }) => {
   return (

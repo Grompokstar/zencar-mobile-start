@@ -1,4 +1,4 @@
-export const THEME = {
+const THEME = {
   MAIN_COLOR: '#ff204e',
   BACKGROUND_COLOR: '#F6F8FA',
   FONT_COLOR: '#274568',
@@ -16,3 +16,5 @@ export const THEME = {
   FONT_BOLD: 'Montserrat-Bold',
   FONT_EXTRA_BOLD: 'Montserrat-ExtraBold',
 }
+
+export default THEME

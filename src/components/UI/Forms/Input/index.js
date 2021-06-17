@@ -4,7 +4,7 @@ import {
   StyleSheet,
   TextInput
 }                           from 'react-native';
-import { THEME }            from 'styles/theme';
+import  THEME               from 'styles/theme';
 
 const AppInput = (props) => {
   return (

@@ -1,4 +1,7 @@
-import React                           from 'react';
+import React, {
+  useEffect,
+  useState,
+}                                      from 'react';
 import { createStackNavigator }        from '@react-navigation/stack';
 import { createBottomTabNavigator }    from '@react-navigation/bottom-tabs';
 import { CreateCarManufacturerScreen } from '../screens/CreateVehicle/Manufacturer';
@@ -7,7 +10,8 @@ import { CreateCarModificationScreen } from '../screens/CreateVehicle/Modificati
 import { MyGarageScreen }              from '../screens/MyGarage';
 import { MainScreen }                  from '../screens/Main';
 import Ionicons                        from 'react-native-vector-icons/Ionicons';
-import { THEME }                       from 'styles/theme';
+import THEME                           from 'styles/theme';
+import AsyncStorage                    from '@react-native-async-storage/async-storage';
 
 const RootStack = createStackNavigator();
 const CreateCarStack = createStackNavigator();
@@ -102,7 +106,9 @@ function CreateVehicleScreens() {
 
 export const AppNavigation = ({}) => {
   return (
-    <RootStack.Navigator>
+    <RootStack.Navigator
+      initialRouteName='CreateVehicle'
+    >
       <RootStack.Screen
         name="Home"
         component={MainScreens}

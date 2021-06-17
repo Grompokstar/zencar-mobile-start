@@ -6,7 +6,7 @@ import {
   StyleSheet
 }                       from 'react-native';
 import VehicleLogo      from 'components/Vehicle/Logo';
-import { THEME }        from 'styles/theme';
+import  THEME           from 'styles/theme';
 import commonStyles     from 'styles/common';
 
 const VehicleCard = ({data}) => {

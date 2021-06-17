@@ -3,18 +3,14 @@ import React, {
   useState
 }                        from 'react';
 import {
-  useSelector,
-  useDispatch
-}                        from 'react-redux';
-import {
   View, StyleSheet,
   ScrollView
 }                        from 'react-native';
-import API               from 'api/index';
-import { THEME }         from 'styles/theme';
+import  THEME            from 'styles/theme';
 import VehicleCard       from 'components/Vehicle/Card';
 import { SafeAreaView }  from 'react-native-safe-area-context';
 import AsyncStorage      from '@react-native-async-storage/async-storage';
+import CustomButton      from 'components/UI/CustomButton';
 
 
 export const MyGarageScreen = ({ navigation }) => {
@@ -40,9 +36,16 @@ export const MyGarageScreen = ({ navigation }) => {
     <SafeAreaView>
       <ScrollView>
         <View style={styles.container}>
-          <For each='vehicle' of={garageVehicles}>
-            <VehicleCard data={vehicle} key={vehicle.modification.id}/>
-          </For>
+          <If condition={garageVehicles}>
+            <For each='vehicle' of={garageVehicles}>
+              <VehicleCard data={vehicle} key={vehicle.modification.id}/>
+            </For>
+          </If>
+          <CustomButton
+            label='Добавить авто'
+            iconName='add'
+            onPress={() => {navigation.navigate('CreateVehicle', {screen: 'CreateCarManufacturer'})}}
+          />
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -52,6 +55,7 @@ export const MyGarageScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 12
+    paddingHorizontal: 12,
+    paddingVertical: 20
   }
 })

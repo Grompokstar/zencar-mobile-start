@@ -12,7 +12,7 @@ import {
   ActivityIndicator, Text
 }                                 from 'react-native';
 import API                        from 'api/index';
-import { THEME }                  from 'styles/theme';
+import  THEME                     from 'styles/theme';
 import isNull                     from 'lodash/isNull';
 import isEmpty                    from 'lodash/isEmpty';
 import minBy                      from 'lodash/minBy';

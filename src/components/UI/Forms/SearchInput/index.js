@@ -5,7 +5,7 @@ import {
   StyleSheet,
   TextInput
 }                           from 'react-native';
-import { THEME }            from 'styles/theme';
+import  THEME               from 'styles/theme';
 import { Ionicons }         from '@expo/vector-icons';
 import AppInput             from 'components/UI/Forms/Input';
 

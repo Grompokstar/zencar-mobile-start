@@ -12,7 +12,7 @@ import {
   ActivityIndicator, Text
 }                                   from 'react-native';
 import API                          from 'api/index';
-import { THEME }                    from 'styles/theme';
+import  THEME                       from 'styles/theme';
 import SearchListItem               from 'components/UI/SearchList/Item';
 import { EnumType }                 from 'json-to-graphql-query';
 import AppSearchInput               from 'components/UI/Forms/SearchInput';

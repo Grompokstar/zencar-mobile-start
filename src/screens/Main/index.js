@@ -11,7 +11,7 @@ import {
   ScrollView, Text
 }                        from 'react-native';
 import API               from 'api/index';
-import { THEME }         from 'styles/theme';
+import  THEME            from 'styles/theme';
 import VehicleCard       from 'components/Vehicle/Card';
 import { SafeAreaView }  from 'react-native-safe-area-context';
 import AsyncStorage      from '@react-native-async-storage/async-storage';

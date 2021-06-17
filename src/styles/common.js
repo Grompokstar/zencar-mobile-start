@@ -1,7 +1,7 @@
 import {
   StyleSheet
-}              from 'react-native';
-import {THEME} from 'styles/theme';
+}                from 'react-native';
+import  THEME    from 'styles/theme';
 
 const commonStyles = StyleSheet.create({
   shadow: {
