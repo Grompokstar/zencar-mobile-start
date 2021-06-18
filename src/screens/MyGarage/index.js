@@ -30,8 +30,6 @@ export const MyGarageScreen = ({ navigation }) => {
     getGarageVehicles();
   }, [])
 
-
-
   return (
     <SafeAreaView>
       <ScrollView>
@@ -43,7 +41,7 @@ export const MyGarageScreen = ({ navigation }) => {
           </If>
           <CustomButton
             label='Добавить авто'
-            iconName='add'
+            iconName='plus'
             onPress={() => {navigation.navigate('CreateVehicle', {screen: 'CreateCarManufacturer'})}}
           />
         </View>

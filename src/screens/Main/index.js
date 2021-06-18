@@ -15,14 +15,35 @@ import  THEME            from 'styles/theme';
 import VehicleCard       from 'components/Vehicle/Card';
 import { SafeAreaView }  from 'react-native-safe-area-context';
 import AsyncStorage      from '@react-native-async-storage/async-storage';
+import ScreenHeader      from 'components/Screen/Header';
 
 
 export const MainScreen = ({ navigation }) => {
+  const [vehicle, setVehicle] = useState(null)
+
+  useEffect(() => {
+    const getGarageVehicles = async () => {
+      try {
+        const vehicles = await AsyncStorage.getItem('ZEN__garageVehicles')
+        const parsedVehicles = JSON.parse(vehicles);
+        setVehicle(parsedVehicles[0])
+      } catch(e) {
+        console.log(e)
+      }
+    }
+
+    getGarageVehicles();
+  }, [])
 
   return (
     <SafeAreaView>
-      <ScrollView style={styles.container}>
-        <Text>Главный скрин</Text>
+      <ScrollView>
+        <ScreenHeader/>
+        <View style={styles.container}>
+          <If condition={vehicle}>
+            <VehicleCard data={vehicle}/>
+          </If>
+        </View>
       </ScrollView>
     </SafeAreaView>
   )
@@ -31,6 +52,7 @@ export const MainScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 12
+    paddingVertical: 20,
+    paddingHorizontal: 12
   }
 })

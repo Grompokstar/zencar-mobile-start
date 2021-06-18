@@ -1,5 +1,7 @@
 const THEME = {
   MAIN_COLOR: '#ff204e',
+  SECONDARY_COLOR: '#00b5ad',
+  WHITE: '#ffffff',
   BACKGROUND_COLOR: '#F6F8FA',
   FONT_COLOR: '#274568',
   FONT_COLOR_DARK: '#16293F',

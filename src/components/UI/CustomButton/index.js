@@ -1,38 +1,39 @@
-import PropTypes    from 'prop-types';
-import React        from 'react';
+import PropTypes                  from 'prop-types';
+import React                      from 'react';
 import {
   View,
   Text,
   StyleSheet,
   TouchableOpacity,
-}                   from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import  THEME       from 'styles/theme';
-import commonStyles from 'styles/common';
+}                                 from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import  THEME                     from 'styles/theme';
+import commonStyles               from 'styles/common';
 
-const CustomButton = ({ label, iconName, onPress }) => {
+const CustomButton = ({ label, iconName, onPress, customStyles }) => {
   return (
     <TouchableOpacity
       onPress={onPress}
     >
-      <View style={[styles.root, commonStyles.shadow]}>
+      <View style={[styles.root, commonStyles.shadow, customStyles]}>
         <If condition={iconName}>
-          <Ionicons name={iconName} size={24} color={THEME.GRAY} />
+          <MaterialCommunityIcons name={iconName} size={24} color={THEME.GRAY} />
         </If>
-
-        <Text style={styles.text}>{label}</Text>
+        <If condition={label}>
+          <Text style={styles.text}>{label}</Text>
+        </If>
       </View>
     </TouchableOpacity>
   );
 };
 
 CustomButton.propTypes = {
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
   iconName: PropTypes.string,
   onPress: PropTypes.func
 };
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.flatten({
   root: {
     backgroundColor: '#fff',
     flexDirection: 'row',
@@ -40,7 +41,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 12,
     paddingHorizontal: 16,
-    borderRadius: 16
+    borderRadius: 16,
   },
   text: {
     marginLeft: 15,

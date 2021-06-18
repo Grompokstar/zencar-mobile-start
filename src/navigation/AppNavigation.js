@@ -9,9 +9,11 @@ import { CreateCarModelScreen }        from '../screens/CreateVehicle/Model';
 import { CreateCarModificationScreen } from '../screens/CreateVehicle/Modification';
 import { MyGarageScreen }              from '../screens/MyGarage';
 import { MainScreen }                  from '../screens/Main';
+import { ExpensesScreen }              from '../screens/Expenses';
 import Ionicons                        from 'react-native-vector-icons/Ionicons';
 import THEME                           from 'styles/theme';
-import AsyncStorage                    from '@react-native-async-storage/async-storage';
+
+import SvgCost from 'components/SVG/Cost';
 
 const RootStack = createStackNavigator();
 const CreateCarStack = createStackNavigator();
@@ -53,6 +55,16 @@ function MainScreens() {
         component={MainScreen}
         options={{
           title: 'Главная',
+        }}
+      />
+      <MainTabs.Screen
+        name="Expenses"
+        component={ExpensesScreen}
+        options={{
+          title: 'Расходы',
+          tabBarIcon: ({ focused, color, size }) => {
+            return <SvgCost size={size} color={color} />;
+          },
         }}
       />
       <MainTabs.Screen
@@ -107,7 +119,7 @@ function CreateVehicleScreens() {
 export const AppNavigation = ({}) => {
   return (
     <RootStack.Navigator
-      initialRouteName='CreateVehicle'
+      initialRouteName='Main'
     >
       <RootStack.Screen
         name="Home"

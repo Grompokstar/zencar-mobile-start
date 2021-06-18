@@ -3,11 +3,15 @@ import React            from 'react';
 import {
   View,
   Text,
-  StyleSheet
+  StyleSheet,
+  Dimensions
 }                       from 'react-native';
 import VehicleLogo      from 'components/Vehicle/Logo';
-import  THEME           from 'styles/theme';
+import CustomButton     from 'components/UI/CustomButton';
+import THEME            from 'styles/theme';
 import commonStyles     from 'styles/common';
+
+const buttonWidth = (Dimensions.get('window').width - 12 * 4 - 8 * 3)/4
 
 const VehicleCard = ({data}) => {
   const {modification, model, manufacturer} = data;
@@ -16,19 +20,42 @@ const VehicleCard = ({data}) => {
     return `${manufacturer.name} ${model.name}`
   }
 
+  const onPressButton = () => {
+    console.log('press button')
+  }
+
   return (
     <View style={[styles.root, commonStyles.shadow]}>
       <View style={styles.header}>
         <View style={styles.logo_container}>
           <VehicleLogo data={data}/>
         </View>
-
         <View style={styles.title_container}>
           <Text style={styles.title}>{getTitle()}</Text>
           <Text style={styles.plate}>госномер не указан</Text>
         </View>
-
-
+      </View>
+      <View style={styles.buttons_row}>
+        <CustomButton
+          iconName='bug-outline'
+          onPress={onPressButton}
+          customStyles={styles.button_styles}
+        />
+        <CustomButton
+          iconName='bug-outline'
+          onPress={onPressButton}
+          customStyles={styles.button_styles}
+        />
+        <CustomButton
+          iconName='book-outline'
+          onPress={onPressButton}
+          customStyles={styles.button_styles}
+        />
+        <CustomButton
+          iconName='bug-outline'
+          onPress={onPressButton}
+          customStyles={styles.button_styles}
+        />
       </View>
     </View>
   );
@@ -47,7 +74,8 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginBottom: 12
   },
 
   logo_container: {
@@ -69,6 +97,16 @@ const styles = StyleSheet.create({
     color: THEME.GRAY_70,
     fontSize: 14,
     letterSpacing: 0.1
+  },
+  buttons_row: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  button_styles: {
+    width: buttonWidth,
+    borderRadius: 8,
+    paddingVertical: 14
   }
 })
 
